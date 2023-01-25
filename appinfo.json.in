@@ -1,0 +1,11 @@
+{
+    "id": "@APP_ID@",
+    "title": "lol hax",
+    "main": "@MAIN@",
+    "type": "native",
+    "icon": "icon_80x80.png",
+    "iconColor": "#B5E61D",
+    "version": "@VERSION@",
+    "noSplashOnLaunch": true,
+    "spinnerOnLaunch": false
+}
