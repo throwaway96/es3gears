@@ -7,7 +7,7 @@ IPK:=$(APP_ID)_$(VERSION)_arm.ipk
 
 export CC:=arm-starfishmllib32-linux-gnueabi-gcc --sysroot=/opt/starfish-sdk-x86_64/5.0.0-20191125/sysroots/aarch64-starfish-linux \
     -mcpu=cortex-a55 -mfloat-abi=softfp -mthumb -rdynamic -funwind-tables
-export CFLAGS:=-pipe -std=gnu17 -Wall -Wextra -O2 -ggdb -feliminate-unused-debug-types -DDEFAULT_APP_ID='"$(APP_ID)"'
+export CFLAGS:=-pipe -std=gnu17 -Wall -Wextra -O2 -ggdb -feliminate-unused-debug-types -fdebug-prefix-map='$(basename $(PWD))=' -DDEFAULT_APP_ID='"$(APP_ID)"'
 export LDFLAGS:=-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
 
 LIBS:=-lm -lwayland-client -lwayland-egl -lwayland-webos-client -lmali
