@@ -50,6 +50,9 @@
 #include <GLES2/gl2.h>
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
+
+#include "attributes.h"
+
 #include "eglut.h"
 
 #define STRIPS_PER_TOOTH 7

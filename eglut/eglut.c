@@ -30,16 +30,12 @@
 #include <stdbool.h>
 #include <sys/time.h>
 
-#include "EGL/egl.h"
-#include "EGL/eglext.h"
+#include <EGL/egl.h>
+#include <EGL/eglext.h>
+
+#include "attributes.h"
 
 #include "eglutint.h"
-
-#if defined(__GNUC__)
-# define NORETURN __attribute__((__noreturn__))
-#else
-# define NORETURN
-#endif
 
 static struct eglut_state _eglut_state = {
    .api_mask = EGLUT_OPENGL_ES1_BIT,

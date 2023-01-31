@@ -26,7 +26,10 @@
 #ifndef _EGLUTINT_H_
 #define _EGLUTINT_H_
 
-#include "EGL/egl.h"
+#include <EGL/egl.h>
+
+#include "attributes.h"
+
 #include "eglut.h"
 
 struct eglut_window {
@@ -78,7 +81,7 @@ struct eglut_state {
 
 extern struct eglut_state *_eglut;
 
-void __attribute__((noreturn))
+void NORETURN
 _eglutFatal(char *format, ...);
 
 int

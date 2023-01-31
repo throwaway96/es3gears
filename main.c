@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#include "attributes.h"
+
 #include "eglut.h"
 
 const char log_file[] = "/tmp/lol.log";

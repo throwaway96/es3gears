@@ -8,14 +8,10 @@
 #include <errno.h>
 #include <string.h>
 
+#include "attributes.h"
+
 #include "eglutint.h"
 #include <wayland-webos-shell-client-protocol.h>
-
-#if defined(__GNUC__)
-# define UNUSED(v) __attribute__((__unused__)) v
-#else
-# define UNUSED(v) v
-#endif
 
 struct display {
    struct wl_display *display;
