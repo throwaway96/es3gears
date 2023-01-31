@@ -11,6 +11,12 @@
 #include "eglutint.h"
 #include <wayland-webos-shell-client-protocol.h>
 
+#if defined(__GNUC__)
+# define UNUSED(v) __attribute__((__unused__)) v
+#else
+# define UNUSED(v) v
+#endif
+
 struct display {
    struct wl_display *display;
    struct wl_compositor *compositor;
@@ -31,7 +37,7 @@ static struct window window = {0, };
 
 static void
 registry_handle_global(void *data, struct wl_registry *registry, uint32_t id,
-                       const char *interface, uint32_t version)
+                       const char *interface, uint32_t UNUSED(version))
 {
    struct display *d = data;
 
@@ -46,8 +52,8 @@ registry_handle_global(void *data, struct wl_registry *registry, uint32_t id,
 }
 
 static void
-registry_handle_global_remove(void *data, struct wl_registry *registry,
-                              uint32_t name)
+registry_handle_global_remove(void UNUSED(*data), struct wl_registry UNUSED(*registry),
+                              uint32_t UNUSED(name))
 {
 }
 
@@ -57,7 +63,7 @@ static const struct wl_registry_listener registry_listener = {
 };
 
 static void
-sync_callback(void *data, struct wl_callback *callback, uint32_t serial)
+sync_callback(void *data, struct wl_callback *callback, uint32_t UNUSED(serial))
 {
    int *done = data;
 
@@ -91,7 +97,7 @@ _eglutNativeInitDisplay(void)
 {
    struct wl_registry *registry;
 
-   _eglut->native_dpy =  display.display = wl_display_connect(NULL);
+   _eglut->native_dpy = display.display = wl_display_connect(NULL);
 
    if (!_eglut->native_dpy)
       _eglutFatal("failed to initialize native display");
@@ -112,7 +118,7 @@ _eglutNativeFiniDisplay(void)
    wl_display_disconnect(_eglut->native_dpy);
 }
 
-static void webos_shell_handle_state_changed(void *data, struct wl_webos_shell_surface *wl_webos_shell_surface, uint32_t state)
+static void webos_shell_handle_state_changed(void UNUSED(*data), struct wl_webos_shell_surface UNUSED(*wl_webos_shell_surface), uint32_t state)
 {
     switch(state)
     {
@@ -123,22 +129,22 @@ static void webos_shell_handle_state_changed(void *data, struct wl_webos_shell_s
     }
 }
 
-static void webos_shell_handle_position_changed(void *data, struct wl_webos_shell_surface *wl_webos_shell_surface, int32_t x, int32_t y)
+static void webos_shell_handle_position_changed(void UNUSED(*data), struct wl_webos_shell_surface UNUSED(*wl_webos_shell_surface), int32_t UNUSED(x), int32_t UNUSED(y))
 {
 }
 
-static void webos_shell_handle_close(void *data, struct wl_webos_shell_surface *wl_webos_shell_surface)
+static void webos_shell_handle_close(void UNUSED(*data), struct wl_webos_shell_surface UNUSED(*wl_webos_shell_surface))
 {
    /* XXX: not sure this is right */
    eglutDestroyWindow(_eglut->current->index);
    exit(0);
 }
 
-static void webos_shell_handle_expose(void *data, struct wl_webos_shell_surface *wl_webos_shell_surface, struct wl_array *rectangles)
+static void webos_shell_handle_expose(void UNUSED(*data), struct wl_webos_shell_surface UNUSED(*wl_webos_shell_surface), struct wl_array UNUSED(*rectangles))
 {
 }
 
-static void webos_shell_handle_state_about_to_change(void *data, struct wl_webos_shell_surface *wl_webos_shell_surface, uint32_t state)
+static void webos_shell_handle_state_about_to_change(void UNUSED(*data), struct wl_webos_shell_surface UNUSED(*wl_webos_shell_surface), uint32_t UNUSED(state))
 {
 }
 
@@ -151,8 +157,8 @@ static const struct wl_webos_shell_surface_listener webos_shell_listener = {
 };
 
 void
-_eglutNativeInitWindow(struct eglut_window *win, const char *title,
-                       int x, int y, int w, int h)
+_eglutNativeInitWindow(struct eglut_window *win, const char UNUSED(*title),
+                       int UNUSED(x), int UNUSED(y), int w, int h)
 {
    struct wl_egl_window *native;
    struct wl_region *region;
@@ -216,7 +222,7 @@ static const struct wl_callback_listener frame_listener = {
 };
 
 static void
-draw(void *data, struct wl_callback *callback, uint32_t time)
+draw(void *data, struct wl_callback *callback, uint32_t UNUSED(time))
 {	
    struct window *window = (struct window *)data;
    struct eglut_window *win = _eglut->current;

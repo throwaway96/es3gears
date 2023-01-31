@@ -35,6 +35,12 @@
 
 #include "eglutint.h"
 
+#if defined(__GNUC__)
+# define NORETURN __attribute__((__noreturn__))
+#else
+# define NORETURN
+#endif
+
 static struct eglut_state _eglut_state = {
    .api_mask = EGLUT_OPENGL_ES1_BIT,
    .window_width = 300,
@@ -45,7 +51,7 @@ static struct eglut_state _eglut_state = {
 
 struct eglut_state *_eglut = &_eglut_state;
 
-void __attribute__((noreturn))
+void NORETURN
 _eglutFatal(char *format, ...)
 {
   va_list args;
