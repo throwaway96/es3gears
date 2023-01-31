@@ -15,13 +15,19 @@ LIBS:=-lm -lwayland-client -lwayland-egl -lwayland-webos-client -lmali
 .PHONY: all
 all: $(IPK)
 
-$(MAIN): main.c es3gears.c eglut/libeglut.a
+$(APP_DIR):
+	mkdir -p -- '$(APP_DIR)'
+
+$(APP_DIR)/$(MAIN): main.c es3gears.c eglut/libeglut.a | $(APP_DIR)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o '$@' $^ -Ieglut $(LIBS)
 
-appinfo.json: appinfo.json.in Makefile
+$(APP_DIR)/appinfo.json: appinfo.json.in Makefile | $(APP_DIR)
 	sed -e 's/@APP_ID@/$(APP_ID)/g' \
 	    -e 's/@MAIN@/$(MAIN)/g' \
 	    -e 's/@VERSION@/$(VERSION)/g' < '$<' > '$@'
+
+$(APP_DIR)/$(ICON): $(ICON) | $(APP_DIR)
+	cp -t '$(APP_DIR)' -- '$<'
 
 eglut/libeglut.a: eglut
 
@@ -29,9 +35,7 @@ eglut/libeglut.a: eglut
 eglut:
 	 $(MAKE) -C eglut -- libeglut.a
 
-$(IPK): main appinfo.json $(ICON)
-	mkdir -p -- '$(APP_DIR)'
-	cp -t '$(APP_DIR)' -- $^
+$(IPK): $(APP_DIR)/$(MAIN) $(APP_DIR)/appinfo.json $(APP_DIR)/$(ICON) | $(APP_DIR)
 	ares-package '$(APP_DIR)'
 
 .PHONY: install
@@ -44,6 +48,6 @@ launch:
 
 .PHONY: clean
 clean:
-	rm -f -- '$(MAIN)' '$(IPK)' appinfo.json
+	rm -f -- '$(IPK)'
 	rm -rf -- '$(APP_DIR)'
 	$(MAKE) -C eglut -- clean
