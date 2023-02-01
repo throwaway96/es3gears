@@ -12,14 +12,18 @@ export LDFLAGS:=-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
 
 LIBS:=-lm -lwayland-client -lwayland-egl -lwayland-webos-client -lmali
 
+SRCS:=main.c es3gears.c
+
+EXTRA_CFLAGS:=-Ieglut
+
 .PHONY: all
 all: $(IPK)
 
 $(APP_DIR):
 	mkdir -p -- '$(APP_DIR)'
 
-$(APP_DIR)/$(MAIN): main.c es3gears.c eglut/libeglut.a | $(APP_DIR)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o '$@' $^ -Ieglut $(LIBS)
+$(APP_DIR)/$(MAIN): $(SRCS) eglut/libeglut.a | $(APP_DIR)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o '$@' $^ $(EXTRA_CFLAGS) $(LIBS)
 
 $(APP_DIR)/appinfo.json: appinfo.json.in Makefile | $(APP_DIR)
 	sed -e 's/@APP_ID@/$(APP_ID)/g' \
